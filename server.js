@@ -1,21 +1,35 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const mongoose = require('mongoose');
-require('dotenv').config();
+const mongoose = require("mongoose");
+const productModel = require("./models/product");
+
+require("dotenv").config();
+
+mongoose.set("useUnifiedTopology", true);
+mongoose.set("useNewUrlParser", true);
+
+mongoose
+  .connect(process.env.MONGO_CONNECTION_STRING)
+  .then(() => {
+    console.log("Connected to MongoDB!");
+  })
+  .catch(() => {
+    console.error("MongoDB connection error!");
+  });
 
 
-mongoose.set('useUnifiedTopology', true);
-mongoose.set('useNewUrlParser', true);
+//------------- FOR DEV PURPOSES----
+//require('./seed');
+//----------------------------------
 
-mongoose.connect(process.env.MONGO_CONNECTION_STRING)
-.then(()=>{console.log('Connected to MongoDB!')})
-.catch(()=>{console.error('MongoDB connection error!')});
 
-app.set('view engine', 'pug');
-app.use(express.static('public'));
+app.set("view engine", "pug");
+app.use(express.static("public"));
 
-app.get('/',(req,res,next)=>{
-    res.render('index');
+app.get("/", (req, res, next) => {
+  res.render("index");
 });
 
-app.listen(process.env.PORT,()=>{console.log('listening')});
+app.listen(process.env.PORT, () => {
+  console.log("listening");
+});
