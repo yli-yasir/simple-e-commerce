@@ -17,17 +17,22 @@ mongoose
     console.error("MongoDB connection error!");
   });
 
-
 //------------- FOR DEV PURPOSES----
 //require('./seed');
 //----------------------------------
 
-
 app.set("view engine", "pug");
 app.use(express.static("public"));
 
-app.get("/", (req, res, next) => {
-  res.render("index");
+app.get("/", async (req, res, next) => {
+  try {
+    const products = await productModel.find();
+    res.render("index",{products}); 
+  } 
+  catch (err) {
+    console.error(err.message);
+    res.sendStatus(500);
+  }
 });
 
 app.listen(process.env.PORT, () => {
