@@ -1,0 +1,21 @@
+doctype
+html(lang='en')
+    include partials/head.pug
+
+
+    body
+        div.w-50.mx-auto.mt-5.p-4.card.rounded
+            h1.text-center.mb-4 Register
+            form
+                div.form-group
+                    label(for="exampleInputEmail1") Email address
+                    input.form-control#exampleInputEmail1(type="email",aria-describedby="emailHelp" placeholder="Enter email")
+                    small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
+                div.form-group
+                    label(for="exampleInputPassword1") Password
+                    input.form-control#exampleInputPassword1(type="password",placeholder="Password")
+                button.btn.button-primary(type="submit") Register        
+
+
+  
+

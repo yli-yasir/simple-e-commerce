@@ -35,6 +35,14 @@ app.get("/", async (req, res, next) => {
   }
 });
 
+
+
+app.get("/register",(req,res,next)=>{
+  res.render('register');
+})
+
+
 app.listen(process.env.PORT, () => {
   console.log("listening");
 });
+

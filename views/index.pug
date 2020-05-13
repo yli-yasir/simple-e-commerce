@@ -1,26 +1,23 @@
 doctype
 html(lang='en')
-    head
-        meta(charset='utf-8')
-        title hello
-        link(href="bootstrap.min.css",rel="stylesheet") 
-        link(href="style.css",rel="stylesheet")
+    include partials/head.pug
     body
-    
         nav.navbar.navbar-dark.bg-primary
             a.navbar-brand(href="/") Sticky Shopping
-            a.nav-link.text-light(href="/login") Login
+            div
+                a.nav-link.text-light(href="/login") Login
+                a.nav-link.text-light(href="/register") Register
+
 
 
         div.container-fluid.p-4.d-flex
         
             each product in products
                 div.card.m-3(style="width: 18rem;")
-                    img.card-img-top.p-4(src="https://image.flaticon.com/icons/svg/2885/2885534.svg",alt="Card image cap")
+                    img.card-img-top.p-4(src=product.img,alt="Card image cap")
                     div.card-body
                         h5.card-title #{product.name} #{product.price}₺
                         p.card-text #{product.description}
                         a(href="#",class="btn btn-primary") Add to cart
   
-</div>
 
