@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const productModel = require("./models/product");
+const bcrypt = require("bcryptjs");
+const Product = require("./models/product");
+const User = require("./models/user");
 
 require("dotenv").config();
 
@@ -23,26 +25,43 @@ mongoose
 
 app.set("view engine", "pug");
 app.use(express.static("public"));
+app.use(express.urlencoded({extended:false}));
 
 app.get("/", async (req, res, next) => {
   try {
-    const products = await productModel.find();
-    res.render("index",{products}); 
-  } 
-  catch (err) {
+    const products = await Product.find();
+    res.render("index", { products });
+  } catch (err) {
     console.error(err.message);
     res.sendStatus(500);
   }
 });
 
+app.get("/register", (req, res, next) => {
+  res.render("register");
+});
 
+app.post("/register", async (req, res, next) => {
 
-app.get("/register",(req,res,next)=>{
-  res.render('register');
-})
+  const username = req.body.username;
+  const password = req.body.password;
+  
+  const encryptedPassword = await bcrypt.hash(password,10);
 
+  await new User({username,password:encryptedPassword}).save();
+  
+  res.send("ok");
+
+});
+
+app.get("/login", (req, res, next) => {
+  res.render("login");
+});
+
+app.post("/login", (req, res, next) => {
+  res.send("ok");
+});
 
 app.listen(process.env.PORT, () => {
   console.log("listening");
 });
-
