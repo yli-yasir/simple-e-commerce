@@ -18,15 +18,15 @@ html(lang='en')
                     input.form-control#exampleInputPassword1(name="password",type="password",placeholder="Password")
                 button.btn.btn-primary(type="submit") Register
 
+    if status==="success"
         div.alert.alert-dismissible.alert-success.w-50.mx-auto.mt-4
             button.close(type="button",data-dismiss="alert")
             strong Success!
 
+    if status==="fail"
         div.alert.alert-dismissible.alert-danger.w-50.mx-auto.mt-4
             button.close(type="button",data-dismiss="alert")
-            strong Something went wrong, please make sure you entered all information.
-</div>        
-
+            strong #{failMessage}
 
   
 

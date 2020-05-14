@@ -5,6 +5,7 @@ html(lang='en')
 
     body
         include partials/navbar.pug
+
         div.w-50.mx-auto.mt-5.p-4.card.rounded
             h1.text-center.mb-4 Login
             form(method="POST",action="/login")
@@ -13,9 +14,11 @@ html(lang='en')
                     input.form-control#exampleInputEmail1(name="username",type="text",aria-describedby="emailHelp" placeholder="Enter email")
                 div.form-group
                     label(for="exampleInputPassword1") Password
-                    input.form-control#exampleInputPassword1(name="passsword",type="password",placeholder="Password")
+                    input.form-control#exampleInputPassword1(name="password",type="password",placeholder="Password")
                 button.btn.btn-primary(type="submit") Login        
 
-
-  
+    if status==="fail"
+        div.alert.alert-dismissible.alert-danger.w-50.mx-auto.mt-4
+            button.close(type="button",data-dismiss="alert")
+            strong #{failMessage}
 

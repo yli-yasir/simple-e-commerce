@@ -3,7 +3,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const userSchema = new mongoose.Schema(
     {
-        name: String, 
+        username: String, 
         email: String,
         password: String,
         cart: [ObjectId]
