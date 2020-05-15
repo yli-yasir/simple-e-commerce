@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const Product = require("./models/product");
 const User = require("./models/user");
 
@@ -26,11 +28,20 @@ mongoose
 app.set("view engine", "pug");
 app.use(express.static("public"));
 app.use(express.urlencoded({extended:false}));
+app.use(cookieParser());
 
 app.get("/", async (req, res, next) => {
   try {
     const products = await Product.find();
-    res.render("index", { products });
+
+    const userToken = req.cookies.tkn;
+
+    let user; 
+    if (userToken){
+    user = jwt.verify(userToken,process.env.SECRET);
+    }
+
+    res.render("index", { products,user});
   } catch (err) {
     console.error(err.message);
     res.sendStatus(500);
@@ -47,7 +58,7 @@ app.post("/register", async (req, res, next) => {
   const password = req.body.password;
   
   if (!username || !password){
-    res.render("register",{status:"fail",failMessage:"You are missing some information"});
+    res.render("register",{status:"fail",message:"You are missing some information"});
     return;
   }
 
@@ -56,7 +67,7 @@ app.post("/register", async (req, res, next) => {
   const existingUser = await User.findOne({username});
 
   if (existingUser){
-    res.render("register",{status:'fail',failMessage:'User already exists'});
+    res.render("register",{status:'fail',message:'User already exists'});
     return;
   }
 
@@ -64,13 +75,13 @@ app.post("/register", async (req, res, next) => {
 
   await new User({username,password:encryptedPassword}).save();
 
-  res.render("register",{status:'success',successMessage:'You registered successfully'});
+  res.render("register",{status:'success',message:'You registered successfully'});
 
   }
 
 catch(err){
   console.error(err.message);
-  res.render('register','something went wrong from our side');
+  res.render('register',{status:"fail", message: 'something went wrong from our side'});
 }
   
 });
@@ -85,35 +96,39 @@ app.post("/login", async (req, res, next) => {
   const password = req.body.password;
   
   if (!username || !password){
-    res.render("login",{status:'fail',failMessage:'please enter all information'});
+    res.render("login",{status:'fail',message:'Please enter all information'});
     return;
   }
 
   try{
+
   const existingUser = await User.findOne({username});
 
   if (existingUser && await bcrypt.compare(password,existingUser.password)){
-    res.redirect('/');
+    const token = jwt.sign({username: existingUser.username },process.env.SECRET);
+    res.cookie('tkn',token).redirect('/');
     return;
   }
+
+  //redundant else
   else{
-    res.render("login",{status:'fail',failMessage:'incorrect user or password'});
+  res.render("login",{status:'fail',message:'Incorrect user or password'});
   }
+  
   }
 
 catch(err){
   console.error(err.message);
-  res.render("login",{status:'fail',failMessage:'server error'});
-
+  res.render("login",{status:'fail',message:'Something went wrong from our side'});
 }
 
-//if the password was wrong or there was an error
 
-
-}
+});
   
+app.get("/logout",(req,res,next)=>{
+  res.clearCookie('tkn').redirect('/');
+})
 
-);
 
 app.listen(process.env.PORT, () => {
   console.log("listening");

@@ -1,5 +1,10 @@
 nav.navbar.navbar-dark.bg-primary
     a.navbar-brand(href="/") Sticky Shopping
     div
-        a.nav-link.text-light(href="/login") Login
-        a.nav-link.text-light(href="/register") Register
+        if !user
+            a.nav-link.text-light(href="/login") Login
+            a.nav-link.text-light(href="/register") Register
+        else 
+            span.text-light Welcome, #{user.username}
+            a.nav-link.text-light(href="/logout") Logout
+        
