@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const Product = require("./models/product");
 const User = require("./models/user");
+const {checkToken,isLoggedInRedirect,isLoggedOutRedirect} = require('./middleware');
 
 require("dotenv").config();
 
@@ -29,30 +30,26 @@ app.set("view engine", "pug");
 app.use(express.static("public"));
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
+app.use(checkToken);
+
+
 
 app.get("/", async (req, res, next) => {
   try {
     const products = await Product.find();
 
-    const userToken = req.cookies.tkn;
-
-    let user; 
-    if (userToken){
-    user = jwt.verify(userToken,process.env.SECRET);
-    }
-
-    res.render("index", { products,user});
+    res.render("index", { products,user:req.user});
   } catch (err) {
     console.error(err.message);
     res.sendStatus(500);
   }
 });
 
-app.get("/register", (req, res, next) => {
+app.get("/register",isLoggedInRedirect,(req, res, next) => {
   res.render("register");
 });
 
-app.post("/register", async (req, res, next) => {
+app.post("/register",isLoggedInRedirect, async (req, res, next) => {
 
   const username = req.body.username;
   const password = req.body.password;
@@ -86,11 +83,11 @@ catch(err){
   
 });
 
-app.get("/login", (req, res, next) => {
+app.get("/login",isLoggedInRedirect, (req, res, next) => {
   res.render("login");
 });
 
-app.post("/login", async (req, res, next) => {
+app.post("/login",isLoggedInRedirect, async (req, res, next) => {
 
   const username = req.body.username;
   const password = req.body.password;
@@ -125,10 +122,30 @@ catch(err){
 
 });
   
-app.get("/logout",(req,res,next)=>{
+app.get("/logout",isLoggedOutRedirect,(req,res,next)=>{
   res.clearCookie('tkn').redirect('/');
 })
 
+app.post("/addtocart/:productId",isLoggedOutRedirect, async (req,res,next)=>{
+  console.log('user is adding to cart')
+  try{
+  const userDocument = await User.findOne({username:req.username});
+  
+  const productId = req.params.productId;
+
+  userDocument.cart.push(productId);
+
+  await userDocument.save();
+
+  console.log(userDocument.cart);
+  res.redirect('/');
+  }
+  catch(err){
+    console.log(err.message);
+
+  }
+
+});
 
 app.listen(process.env.PORT, () => {
   console.log("listening");
