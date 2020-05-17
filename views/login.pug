@@ -18,8 +18,6 @@ html(lang='en')
                 button.btn.btn-primary(type="submit") Login        
 
     if status
-        div.alert.alert-dismissible.w-50.mx-auto.mt-4(class=status === "fail" ? "alert-danger" : "alert-success")
-            button.close(type="button",data-dismiss="alert")
-            strong= message
+        include partials/alert.pug
 
 

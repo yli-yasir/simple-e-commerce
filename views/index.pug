@@ -4,16 +4,15 @@ html(lang='en')
     body
         include partials/navbar.pug
         
-        div.container-fluid.p-4.d-flex
-        
+        include partials/modal.pug
+
+        div.container-fluid.p-4.d-flex.flex-wrap.justify-content-center
+
             each product in products
                 div.card.m-3(style="width: 18rem;")
                     img.card-img-top.p-4(src=product.img,alt="Card image cap")
                     div.card-body
                         h5.card-title #{product.name} #{product.price}₺
                         p.card-text #{product.description}
-                        form(action="/addtocart/" + product._id  ,method="POST")
-                            button.btn.btn-primary(type="submit") <i class="fas fa-cart-plus"></i> &nbsp;Add to cart
-                            
-  
-
+                        button.add-to-cart.btn.btn-primary(id=product.id) <i class="fas fa-cart-plus"></i> &nbsp;Add to cart
+        script(src="script.js")
