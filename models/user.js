@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema(
         username: String, 
         email: String,
         password: String,
-        cart: [ObjectId]
+        cart: [{ type: ObjectId, ref: 'product' }]
     }
 );
 

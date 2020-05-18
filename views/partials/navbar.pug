@@ -1,11 +1,12 @@
 nav.navbar.navbar-dark.bg-primary
-    a.navbar-brand(href="/") Sticky Shopping
+    a.navbar-brand(href="/") Sticker Shopping
     div
         if !user
             a.nav-link.text-light(href="/login") <i class="fas fa-door-open"></i> Login 
             a.nav-link.text-light(href="/register") <i class="fas fa-pen"></i> Register
         else 
-            span.text-light.mr-4 Welcome, #{user.username}
+            span.text-light.mr-4 <i class="fas fa-user"></i> Welcome, #{user.username}
+            a.nav-link.text-light(href="/") <i class="fas fa-home"></i> Home
             a.nav-link.text-light(href="/cart") <i class="fas fa-shopping-cart"></i> Cart
             a.nav-link.text-light(href="/logout") <i class="fas fa-door-open"></i> Logout
         

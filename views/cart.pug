@@ -1,0 +1,43 @@
+doctype
+html(lang='en')
+    include partials/head.pug
+    body
+        include partials/navbar.pug
+        
+        if status
+            include partials/alert.pug
+        div.container.p-5.mt-4.card.w-75
+            if cart.length!==0
+                h1.mb-4 Total #{ cart.reduce( (a,b) => a + b.price, 0 )}₺
+                ul.list.group
+                    each product in cart
+                        li.list-group-item.d-flex.justify-content-between.align-items-center #{product.name} #{product.price}₺
+                            form(action=`/cart?_method=DELETE`,method="POST")
+                                input(name="productId" type="text",value=product._id).d-none
+                                button.btn.btn-danger(type="submit") <i class="fas fa-trash"></i>
+            else 
+                h1 Your cart is empty
+
+        if cart.length!==0
+            div.container.p-5.my-4.card.w-75
+                h1.mb-4 Payment Information
+                form(action="/cart",method="POST")
+                    .form-group
+                        label(for='name-input') Name
+                        input.form-control(name="name" type='text' placeholder='Your name' required)
+                    .form-group
+                        label(for='card-number-input') Card Number
+                        input.form-control(name="cardNumber" type='text' placeholder='Your card number' required)
+                    .form-group
+                        label(for='card-cvc-input') CVC
+                        input.form-control(name="CVC" type='text' placeholder='Your CVC' required)
+                    .form-group
+                        label(for='card-cvc-input') Expiry Date
+                        input#card-cvc-input.form-control(name="expiryDate" type='date' required)
+                    p <small class="form-text text-muted"> This is a demo and the purchase will work regardless of the info you enter</small>
+                    button.btn.btn-primary(type='submit') Buy
+    
+
+
+
+ 

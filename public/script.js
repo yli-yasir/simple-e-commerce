@@ -32,3 +32,6 @@ function hideModal(){
     document.querySelector(".modal").style.display= 'none';
 
 ;}
+
+
+

@@ -11,11 +11,12 @@ html(lang='en')
             form(method="POST",action="/register")
                 div.form-group
                     label(for="exampleInputEmail1") Username
-                    input.form-control#exampleInputEmail1(name="username",type="text",aria-describedby="emailHelp" placeholder="Enter email")
+                    input.form-control#exampleInputEmail1(name="username",type="text",aria-describedby="emailHelp" placeholder="Enter email" required)
                     small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
                 div.form-group
                     label(for="exampleInputPassword1") Password
-                    input.form-control#exampleInputPassword1(name="password",type="password",placeholder="Password")
+                    input.form-control#exampleInputPassword1(name="password",type="password",placeholder="Password" required)
+                p <small class="form-text text-muted"> This is a demo so you are not asked to confirm your password.</small>
                 button.btn.btn-primary(type="submit") Register
 
     if status

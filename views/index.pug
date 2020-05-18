@@ -1,10 +1,14 @@
 doctype
 html(lang='en')
+
     include partials/head.pug
+
     body
+
         include partials/navbar.pug
         
-        include partials/modal.pug
+        if status
+            include partials/alert.pug
 
         div.container-fluid.p-4.d-flex.flex-wrap.justify-content-center
 
@@ -14,5 +18,6 @@ html(lang='en')
                     div.card-body
                         h5.card-title #{product.name} #{product.price}₺
                         p.card-text #{product.description}
-                        button.add-to-cart.btn.btn-primary(id=product.id) <i class="fas fa-cart-plus"></i> &nbsp;Add to cart
-        script(src="script.js")
+                        form(method="POST",action="/")
+                            input.d-none(name="productId",value=product._id)
+                            button.add-to-cart.btn.btn-primary(id=product.id,type="submit") <i class="fas fa-cart-plus"></i> &nbsp;Add to cart
