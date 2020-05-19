@@ -22,3 +22,5 @@ The following variables should be defined in .env (This file should not be pushe
 
 **This is only a rushed demo for a school project, so it doesn't conform to web server security practices and more. Furthermore, the design is not responsive or accessible.** 
 
+This project uses icons made by [freepik](https://www.flaticon.com/authors/freepik)
+
