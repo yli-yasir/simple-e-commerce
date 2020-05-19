@@ -10,5 +10,15 @@
 
 * Support more HTTP methods than ```GET``` and ```POST``` in HTML forms by using [method-override](https://www.npmjs.com/package/method-override) module
 
-**This is only a rushed demo for a school project, so it doesn't conform to web server security practices and more. Furthermore, the design is not responsive or accessible** 
+## Evironment Variables
+
+The following variables should be defined in .env (This file should not be pushed to version control systems)
+
+* ```MONGO_CONNECTION_STRING```
+
+* ```SECRET```
+
+* ```PORT```
+
+**This is only a rushed demo for a school project, so it doesn't conform to web server security practices and more. Furthermore, the design is not responsive or accessible.** 
 
