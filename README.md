@@ -10,6 +10,10 @@
 
 * Support more HTTP methods than ```GET``` and ```POST``` in HTML forms by using [method-override](https://www.npmjs.com/package/method-override) module
 
+## Screenshots
+
+<img src="/screenshots/index.png">
+
 ## Evironment Variables
 
 The following variables should be defined in .env (This file should not be pushed to version control systems)
